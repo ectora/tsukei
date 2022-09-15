@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { Client, WebhookClient } = require('discord.js-selfbot-v13');
 const client = new Client({ checkUpdate: false });
 const hook = new WebhookClient({
