@@ -8,7 +8,7 @@ const hook = new WebhookClient({
 client.on('ready', () => client.user.setStatus('dnd'));
 client.on('messageCreate', async (message) => {
       if (message.author.bot || message.channel.type !== 'GUILD_TEXT') return;
-      if (message.guild.id !== process.env,TARGET_GUILD) return;
+      if (message.guild.id !== process.env.TARGET_GUILD) return;
 
       await hook.send({
             username: `${message.author.tag} - ${message.author.id}`,
