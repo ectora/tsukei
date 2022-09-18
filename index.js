@@ -4,7 +4,7 @@ const hook = new WebhookClient({
       url: process.env.WEBHOOK
 });
 
-// client.on('ready', () => client.user.setStatus('dnd'));
+client.on('ready', () => client.user.setStatus('invisible'));
 client.on('messageCreate', async (message) => {
       if (message.author.bot || message.channel.type !== 'GUILD_TEXT') return;
       if (message.guild.id !== process.env.TARGET_GUILD) return;
