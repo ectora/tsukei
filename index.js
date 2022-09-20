@@ -5,18 +5,25 @@ const hook = new WebhookClient({
       url: process.env.WEBHOOK
 });
 
-client.on('ready', () => client.user.setStatus('invisible'));
+client.on('ready', () => {
+      client.user.setStatus('invisible');
+      console.log(`Bot is now online.`);
+});
 
 client.on('messageUpdate', async (oldMsg, newMsg) => {
-      hook.send({
+      if (newMsg.author.bot || newMsg.channel.type !== 'GUILD_TEXT') return;
+      if (oldMsg.guild.id !== process.env.TARGET_GUILD) return;
+      if (oldMsg.content === newMsg.content) return;
+
+      await hook.send({
             embeds: [
                   new MessageEmbed()
                         .setColor('BLURPLE')
-                        .setAuthor({ name: `${message.author.tag} (${message.author.id})`, iconURL: newMsg.author.displayAvatarURL() })
+                        .setAuthor({ name: `${newMsg.author.tag} (${newMsg.author.id})`, iconURL: newMsg.author.displayAvatarURL() })
                         .addFields([
-                              { name: 'Before', value: oldMsg.content },
-                              { name: 'After', value: newMsg.content }
-                        ])
+                              { name: 'Before', value: oldMsg.content | 'No content.' },
+                              { name: 'After', value: newMsg.content | 'No content.' }
+                        ]).toJSON()
             ]
       });
 });
